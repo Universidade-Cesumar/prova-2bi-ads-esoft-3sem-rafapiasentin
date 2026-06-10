@@ -58,5 +58,6 @@ async function cadastrar() {
         document.getElementById('input-quantidade').value = '';
         carregarMateriais();
     } catch (erro) {
+        alert('⚠️ ' + erro.message);
     }
 }
