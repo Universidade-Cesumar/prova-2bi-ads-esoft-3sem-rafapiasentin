@@ -33,3 +33,54 @@ main {
     margin: 32px auto;
     padding: 0 16px;
 }
+
+.form-section {
+    background: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+    margin-bottom: 32px;
+}
+
+.form-section h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #222;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 160px;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+}
+
+input {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fafafa;
+    transition: border-color .2s;
+}
+
+input:focus {
+    border-color: #0056b3;
+    outline: none;
+    background: #fff;
+}
