@@ -27,3 +27,9 @@ header p {
     opacity: .85;
     margin-top: 4px;
 }
+
+main {
+    max-width: 800px;
+    margin: 32px auto;
+    padding: 0 16px;
+}
