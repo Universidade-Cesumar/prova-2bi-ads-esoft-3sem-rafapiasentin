@@ -101,3 +101,29 @@ input:focus {
 #btn-cadastrar:hover {
     background: #004085;
 }
+
+.list-section h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #222;
+}
+
+#lista-materiais {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .06);
+    list-style: none;
+    overflow: hidden;
+}
+
+#lista-materiais li {
+    padding: 14px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #333;
+}
+
+#lista-materiais li:last-child {
+    border-bottom: none;
+}
