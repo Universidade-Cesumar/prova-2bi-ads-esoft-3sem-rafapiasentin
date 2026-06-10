@@ -84,3 +84,19 @@ input:focus {
     outline: none;
     background: #fff;
 }
+ #btn-cadastrar {
+    background: #0056b3;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s;
+    white-space: nowrap;
+}
+
+#btn-cadastrar:hover {
+    background: #004085;
+}
