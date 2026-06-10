@@ -10,3 +10,20 @@ body {
     color: #333;
     line-height: 1.6;
 }
+
+header {
+    background: #0056b3;
+    color: #fff;
+    padding: 24px 32px;
+}
+
+header h1 {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+header p {
+    font-size: 14px;
+    opacity: .85;
+    margin-top: 4px;
+}
