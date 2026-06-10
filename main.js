@@ -31,3 +31,33 @@ function preencherLista(materiais) {
         lista.appendChild(li);
     });
 }
+
+async function cadastrar() {
+    const nome = document.getElementById('input-nome').value.trim();
+    const quantidade = document.getElementById('input-quantidade').value;
+
+    if (!nome || !quantidade) {
+        alert('Preencha o nome e a quantidade.');
+        return;
+    }
+
+    const novoItem = {
+        produto: nome,
+        quantidade: Number(quantidade)
+    };
+
+    try {
+        const resposta = await fetch(API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(novoItem)
+        });
+        if (!resposta.ok) throw new Error('Erro ao cadastrar.');
+        alert('✅ Material cadastrado com sucesso!');
+        document.getElementById('input-nome').value = '';
+        document.getElementById('input-quantidade').value = '';
+        carregarMateriais();
+    } catch (erro) {
+        alert('⚠️ ' + erro.message);
+    }
+}
