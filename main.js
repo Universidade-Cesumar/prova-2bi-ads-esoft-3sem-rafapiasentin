@@ -16,3 +16,18 @@ async function carregarMateriais() {
         document.getElementById('lista-materiais').innerHTML = `<li>Erro: ${erro.message}</li>`;
     }
 }
+
+function preencherLista(materiais) {
+    const lista = document.getElementById('lista-materiais');
+    lista.innerHTML = '';
+    if (!materiais.length) {
+        lista.innerHTML = '<li>Nenhum material cadastrado.</li>';
+        return;
+    }
+    materiais.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.produto || 'Sem nome'} — Qtd: ${item.quantidade ?? 0}`;
+        li.dataset.id = item.id;
+        lista.appendChild(li);
+    });
+}
