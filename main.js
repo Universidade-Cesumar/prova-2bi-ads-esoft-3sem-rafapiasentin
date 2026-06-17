@@ -149,3 +149,18 @@ async function baixarEstoque(botao) {
         alert( + erro.message);
     }
 }
+
+async function excluirMaterial(botao) {
+    const li = botao.closest('li');
+    const id = li.dataset.id;
+
+    if (!confirm('Tem certeza que deseja excluir este material?')) return;
+
+    try {
+        const resposta = await fetch(`${API}/${id}`, { method: 'DELETE' });
+        if (!resposta.ok) throw new Error('Erro ao excluir material.');
+        carregarMateriais();
+    } catch (erro) {
+        alert( + erro.message);
+    }
+}
