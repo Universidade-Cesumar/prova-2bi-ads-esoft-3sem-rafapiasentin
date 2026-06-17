@@ -107,12 +107,12 @@ async function cadastrar() {
             body: JSON.stringify(novoItem)
         });
         if (!resposta.ok) throw new Error('Erro ao cadastrar.');
-        alert('✅ Material cadastrado com sucesso!');
+        alert(' Material cadastrado com sucesso!');
         document.getElementById('input-nome').value = '';
         document.getElementById('input-quantidade').value = '';
         carregarMateriais();
     } catch (erro) {
-        alert('⚠️ ' + erro.message);
+        alert( + erro.message);
     }
 }
 
@@ -120,4 +120,32 @@ function validarRetirada(estoqueAtual, quantidadeRetirada) {
     if (quantidadeRetirada <= 0) return false;
     if (quantidadeRetirada > estoqueAtual) return false;
     return true;
+}
+
+async function baixarEstoque(botao) {
+    const li = botao.closest('li');
+    const id = li.dataset.id;
+    const produto = li.dataset.produto;
+    const estoqueAtual = Number(li.dataset.quantidade);
+    const quantidadeRetirada = Number(document.getElementById('input-retirada').value);
+
+    if (!validarRetirada(estoqueAtual, quantidadeRetirada)) {
+        alert('⚠️ Quantidade inválida para retirada.');
+        return;
+    }
+
+    const novaQuantidade = estoqueAtual - quantidadeRetirada;
+
+    try {
+        const resposta = await fetch(`${API}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ produto, quantidade: novaQuantidade })
+        });
+        if (!resposta.ok) throw new Error('Erro ao atualizar estoque.');
+        document.getElementById('input-retirada').value = '';
+        carregarMateriais();
+    } catch (erro) {
+        alert( + erro.message);
+    }
 }
