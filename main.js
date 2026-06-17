@@ -79,6 +79,13 @@ function preencherLista(materiais) {
     });
 }
 
+function criarBotao(texto, classe) {
+    const btn = document.createElement('button');
+    btn.className = classe;
+    btn.textContent = texto;
+    return btn;
+}
+
 async function cadastrar() {
     const nome = document.getElementById('input-nome').value.trim();
     const quantidade = document.getElementById('input-quantidade').value;
