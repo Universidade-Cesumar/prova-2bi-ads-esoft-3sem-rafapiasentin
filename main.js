@@ -164,3 +164,32 @@ async function excluirMaterial(botao) {
         alert( + erro.message);
     }
 }
+
+async function adicionarEstoque(botao) {
+    const li = botao.closest('li');
+    const id = li.dataset.id;
+    const produto = li.dataset.produto;
+    const estoqueAtual = Number(li.dataset.quantidade);
+    const inputAdicionar = li.querySelector('.input-adicionar');
+    const quantidadeAdicionar = Number(inputAdicionar.value);
+
+    if (!quantidadeAdicionar || quantidadeAdicionar <= 0) {
+        alert('Informe uma quantidade válida para adicionar.');
+        return;
+    }
+
+    const novaQuantidade = estoqueAtual + quantidadeAdicionar;
+
+    try {
+        const resposta = await fetch(`${API}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ produto, quantidade: novaQuantidade })
+        });
+        if (!resposta.ok) throw new Error('Erro ao atualizar estoque.');
+        inputAdicionar.value = '';
+        carregarMateriais();
+    } catch (erro) {
+        alert( + erro.message);
+    }
+}
