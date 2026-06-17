@@ -3,6 +3,18 @@ const API = 'https://6a28b3024e1e783349a5e7c9.mockapi.io/users';
 window.onload = () => {
     carregarMateriais();
     document.getElementById('btn-cadastrar').addEventListener('click', cadastrar);
+
+        document.getElementById('lista-materiais').addEventListener('click', (evento) => {
+        if (evento.target.classList.contains('btn-baixar')) {
+            baixarEstoque(evento.target);
+        } else if (evento.target.classList.contains('btn-excluir')) {
+            excluirMaterial(evento.target);
+        } else if (evento.target.classList.contains('btn-editar')) {
+            evento.target.closest('li').querySelector('.painel-edicao').classList.toggle('aberto');
+        } else if (evento.target.classList.contains('btn-adicionar')) {
+            adicionarEstoque(evento.target);
+        }
+    });
 };
 
 async function carregarMateriais() {
