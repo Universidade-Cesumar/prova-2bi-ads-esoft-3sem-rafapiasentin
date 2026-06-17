@@ -165,3 +165,9 @@ input:focus {
 #lista-materiais li:last-child {
     border-bottom: none;
 }
+
+.item-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
