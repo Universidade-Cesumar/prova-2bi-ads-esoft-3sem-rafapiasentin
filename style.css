@@ -171,3 +171,45 @@ input:focus {
     gap: 8px;
     flex-shrink: 0;
 }
+
+.qtd-valor {
+    background: #e7f1ff;
+    color: #0056b3;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 13px;
+    margin-left: 6px;
+}
+
+.btn-baixar {
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.btn-baixar:hover {
+    background: #1e7e34;
+}
+
+.btn-excluir {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.btn-excluir:hover {
+    background: #b02a37;
+}
