@@ -36,10 +36,45 @@ function preencherLista(materiais) {
         lista.innerHTML = '<li>Nenhum material cadastrado.</li>';
         return;
     }
-    materiais.forEach(item => {
+     materiais.forEach(item => {
         const li = document.createElement('li');
-        li.textContent = `${item.produto || 'Sem nome'} — Qtd: ${item.quantidade ?? 0}`;
         li.dataset.id = item.id;
+        li.dataset.produto = item.produto || '';
+        li.dataset.quantidade = item.quantidade ?? 0;
+
+        const info = document.createElement('span');
+        info.appendChild(document.createTextNode(`${item.produto || 'Sem nome'} `));
+        const qtdSpan = document.createElement('span');
+        qtdSpan.className = 'qtd-valor';
+        qtdSpan.textContent = `Quantidade: ${item.quantidade ?? 0}`;
+        info.appendChild(qtdSpan);
+        const acoes = document.createElement('div');
+        acoes.className = 'item-actions';
+        acoes.appendChild(criarBotao('Editar', 'btn-editar'));
+        acoes.appendChild(criarBotao('Excluir', 'btn-excluir'));
+
+        const topo = document.createElement('div');
+        topo.className = 'item-topo';
+        topo.appendChild(info);
+        topo.appendChild(acoes);
+
+        const painel = document.createElement('div');
+        painel.className = 'painel-edicao';
+        painel.appendChild(criarBotao('Baixar', 'btn-baixar'));
+
+        const grupoAdicionar = document.createElement('div');
+        grupoAdicionar.className = 'adicionar-grupo';
+        const inputAdicionar = document.createElement('input');
+        inputAdicionar.type = 'number';
+        inputAdicionar.className = 'input-adicionar';
+        inputAdicionar.min = '1';
+        inputAdicionar.placeholder = 'Qtd a adicionar';
+        grupoAdicionar.appendChild(inputAdicionar);
+        grupoAdicionar.appendChild(criarBotao('Adicionar', 'btn-adicionar'));
+        painel.appendChild(grupoAdicionar);
+
+        li.appendChild(topo);
+        li.appendChild(painel);
         lista.appendChild(li);
     });
 }
