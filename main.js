@@ -5,16 +5,8 @@ window.onload = () => {
     document.getElementById('btn-cadastrar').addEventListener('click', cadastrar);
 
     document.getElementById('input-busca').addEventListener('input', filtrarLista);
-        let todosMateriais = [];
-            function filtrarLista() {
-            const termo = document.getElementById('input-busca').value.trim().toLowerCase();
-            const filtrados = todosMateriais.filter(item =>
-            (item.produto || '').toLowerCase().includes(termo)
-        );
-            preencherLista(filtrados);
-        }
 
-        document.getElementById('lista-materiais').addEventListener('click', (evento) => {
+    document.getElementById('lista-materiais').addEventListener('click', (evento) => {
         if (evento.target.classList.contains('btn-baixar')) {
             baixarEstoque(evento.target);
         } else if (evento.target.classList.contains('btn-excluir')) {
@@ -26,6 +18,8 @@ window.onload = () => {
         }
     });
 };
+
+let todosMateriais = [];
 
 async function carregarMateriais() {
     try {
@@ -43,15 +37,22 @@ async function carregarMateriais() {
 function preencherLista(materiais) {
     const lista = document.getElementById('lista-materiais');
     lista.innerHTML = '';
+    document.getElementById('total-itens').textContent = materiais.length;
+
     if (!materiais.length) {
         lista.innerHTML = '<li>Nenhum material cadastrado.</li>';
         return;
     }
-     materiais.forEach(item => {
+    materiais.forEach(item => {
         const li = document.createElement('li');
         li.dataset.id = item.id;
+
         li.dataset.produto = item.produto || '';
         li.dataset.quantidade = item.quantidade ?? 0;
+
+        if ((item.quantidade ?? 0) < 10) {
+            li.classList.add('estoque-critico');
+        }
 
         const info = document.createElement('span');
         info.appendChild(document.createTextNode(`${item.produto || 'Sem nome'} `));
@@ -59,6 +60,7 @@ function preencherLista(materiais) {
         qtdSpan.className = 'qtd-valor';
         qtdSpan.textContent = `Quantidade: ${item.quantidade ?? 0}`;
         info.appendChild(qtdSpan);
+
         const acoes = document.createElement('div');
         acoes.className = 'item-actions';
         acoes.appendChild(criarBotao('Editar', 'btn-editar'));
@@ -95,6 +97,14 @@ function criarBotao(texto, classe) {
     btn.className = classe;
     btn.textContent = texto;
     return btn;
+}
+
+function filtrarLista() {
+    const termo = document.getElementById('input-busca').value.trim().toLowerCase();
+    const filtrados = todosMateriais.filter(item =>
+        (item.produto || '').toLowerCase().includes(termo)
+    );
+    preencherLista(filtrados);
 }
 
 async function cadastrar() {
@@ -138,10 +148,11 @@ async function baixarEstoque(botao) {
     const id = li.dataset.id;
     const produto = li.dataset.produto;
     const estoqueAtual = Number(li.dataset.quantidade);
-    const quantidadeRetirada = Number(document.getElementById('input-retirada').value);
+    const inputRetirada = document.getElementById('input-retirada');
+    const quantidadeRetirada = Number(inputRetirada.value);
 
     if (!validarRetirada(estoqueAtual, quantidadeRetirada)) {
-        alert('Quantidade inválida para retirada.');
+        alert('Quantidade invalida para retirada.');
         return;
     }
 
@@ -154,8 +165,7 @@ async function baixarEstoque(botao) {
             body: JSON.stringify({ produto, quantidade: novaQuantidade })
         });
         if (!resposta.ok) throw new Error('Erro ao atualizar estoque.');
-        
-        document.getElementById('input-retirada').value = '';
+        inputRetirada.value = '';
         carregarMateriais();
     } catch (erro) {
         alert(erro.message);
@@ -171,7 +181,6 @@ async function excluirMaterial(botao) {
     try {
         const resposta = await fetch(`${API}/${id}`, { method: 'DELETE' });
         if (!resposta.ok) throw new Error('Erro ao excluir material.');
-        
         carregarMateriais();
     } catch (erro) {
         alert(erro.message);
@@ -187,7 +196,7 @@ async function adicionarEstoque(botao) {
     const quantidadeAdicionar = Number(inputAdicionar.value);
 
     if (!quantidadeAdicionar || quantidadeAdicionar <= 0) {
-        alert('Informe uma quantidade válida para adicionar.');
+        alert('Informe uma quantidade valida para adicionar.');
         return;
     }
 
@@ -200,18 +209,9 @@ async function adicionarEstoque(botao) {
             body: JSON.stringify({ produto, quantidade: novaQuantidade })
         });
         if (!resposta.ok) throw new Error('Erro ao atualizar estoque.');
-        
         inputAdicionar.value = '';
         carregarMateriais();
     } catch (erro) {
         alert(erro.message);
     }
-}
-
-function preencherLista(materiais) {
-    materiais.forEach(item => {
-        if ((item.quantidade ?? 0) < 10) {
-            li.classList.add('estoque-critico');
-        }
-    });
 }
