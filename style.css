@@ -107,6 +107,27 @@ input:focus {
     background: #004085;
 }
 
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.list-section h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: #222;
+}
+
+#input-busca {
+    flex: 1;
+    min-width: 180px;
+    max-width: 260px;
+}
+
 .list-section h2 {
     font-size: 17px;
     font-weight: 700;
