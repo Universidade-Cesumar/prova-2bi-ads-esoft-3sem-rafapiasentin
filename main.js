@@ -4,6 +4,16 @@ window.onload = () => {
     carregarMateriais();
     document.getElementById('btn-cadastrar').addEventListener('click', cadastrar);
 
+    document.getElementById('input-busca').addEventListener('input', filtrarLista);
+        let todosMateriais = [];
+            function filtrarLista() {
+            const termo = document.getElementById('input-busca').value.trim().toLowerCase();
+            const filtrados = todosMateriais.filter(item =>
+            (item.produto || '').toLowerCase().includes(termo)
+        );
+            preencherLista(filtrados);
+        }
+
         document.getElementById('lista-materiais').addEventListener('click', (evento) => {
         if (evento.target.classList.contains('btn-baixar')) {
             baixarEstoque(evento.target);
