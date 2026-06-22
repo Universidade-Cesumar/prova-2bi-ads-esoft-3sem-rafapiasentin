@@ -118,12 +118,12 @@ async function cadastrar() {
             body: JSON.stringify(novoItem)
         });
         if (!resposta.ok) throw new Error('Erro ao cadastrar.');
-        alert(' Material cadastrado com sucesso!');
+        alert('Material cadastrado com sucesso!');
         document.getElementById('input-nome').value = '';
         document.getElementById('input-quantidade').value = '';
         carregarMateriais();
     } catch (erro) {
-        alert( + erro.message);
+        alert(erro.message);
     }
 }
 
@@ -154,10 +154,11 @@ async function baixarEstoque(botao) {
             body: JSON.stringify({ produto, quantidade: novaQuantidade })
         });
         if (!resposta.ok) throw new Error('Erro ao atualizar estoque.');
+        
         document.getElementById('input-retirada').value = '';
         carregarMateriais();
     } catch (erro) {
-        alert( + erro.message);
+        alert(erro.message);
     }
 }
 
@@ -170,9 +171,10 @@ async function excluirMaterial(botao) {
     try {
         const resposta = await fetch(`${API}/${id}`, { method: 'DELETE' });
         if (!resposta.ok) throw new Error('Erro ao excluir material.');
+        
         carregarMateriais();
     } catch (erro) {
-        alert( + erro.message);
+        alert(erro.message);
     }
 }
 
@@ -198,9 +200,10 @@ async function adicionarEstoque(botao) {
             body: JSON.stringify({ produto, quantidade: novaQuantidade })
         });
         if (!resposta.ok) throw new Error('Erro ao atualizar estoque.');
+        
         inputAdicionar.value = '';
         carregarMateriais();
     } catch (erro) {
-        alert( + erro.message);
+        alert(erro.message);
     }
 }
