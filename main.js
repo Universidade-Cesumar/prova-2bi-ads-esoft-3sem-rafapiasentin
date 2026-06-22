@@ -33,7 +33,8 @@ async function carregarMateriais() {
         if (!resposta.ok) throw new Error('Erro ao carregar dados.');
         let dados = await resposta.json();
         if (dados.length === 1 && Array.isArray(dados[0])) dados = dados[0];
-        preencherLista(dados);
+        todosMateriais = dados;
+        preencherLista(todosMateriais);
     } catch (erro) {
         document.getElementById('lista-materiais').innerHTML = `<li>Erro: ${erro.message}</li>`;
     }
