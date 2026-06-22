@@ -3,7 +3,6 @@ const API = 'https://6a28b3024e1e783349a5e7c9.mockapi.io/users';
 window.onload = () => {
     carregarMateriais();
     document.getElementById('btn-cadastrar').addEventListener('click', cadastrar);
-
     document.getElementById('input-busca').addEventListener('input', filtrarLista);
 
     document.getElementById('lista-materiais').addEventListener('click', (evento) => {
@@ -46,7 +45,6 @@ function preencherLista(materiais) {
     materiais.forEach(item => {
         const li = document.createElement('li');
         li.dataset.id = item.id;
-
         li.dataset.produto = item.produto || '';
         li.dataset.quantidade = item.quantidade ?? 0;
 
@@ -116,19 +114,13 @@ async function cadastrar() {
         return;
     }
 
-    const novoItem = {
-        produto: nome,
-        quantidade: Number(quantidade)
-    };
-
     try {
         const resposta = await fetch(API, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(novoItem)
+            body: JSON.stringify({ produto: nome, quantidade: Number(quantidade) })
         });
         if (!resposta.ok) throw new Error('Erro ao cadastrar.');
-        alert('Material cadastrado com sucesso!');
         document.getElementById('input-nome').value = '';
         document.getElementById('input-quantidade').value = '';
         carregarMateriais();
@@ -138,31 +130,27 @@ async function cadastrar() {
 }
 
 function validarRetirada(estoqueAtual, quantidadeRetirada) {
-    if (quantidadeRetirada <= 0) return false;
-    if (quantidadeRetirada > estoqueAtual) return false;
-    return true;
+    return quantidadeRetirada > 0 && quantidadeRetirada <= estoqueAtual;
 }
 
 async function baixarEstoque(botao) {
     const li = botao.closest('li');
-    const id = li.dataset.id;
-    const produto = li.dataset.produto;
-    const estoqueAtual = Number(li.dataset.quantidade);
     const inputRetirada = document.getElementById('input-retirada');
     const quantidadeRetirada = Number(inputRetirada.value);
 
-    if (!validarRetirada(estoqueAtual, quantidadeRetirada)) {
-        alert('Quantidade invalida para retirada.');
+    if (!validarRetirada(Number(li.dataset.quantidade), quantidadeRetirada)) {
+        alert('Quantidade inválida para retirada.');
         return;
     }
 
-    const novaQuantidade = estoqueAtual - quantidadeRetirada;
-
     try {
-        const resposta = await fetch(`${API}/${id}`, {
+        const resposta = await fetch(`${API}/${li.dataset.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ produto, quantidade: novaQuantidade })
+            body: JSON.stringify({ 
+                produto: li.dataset.produto, 
+                quantidade: Number(li.dataset.quantidade) - quantidadeRetirada 
+            })
         });
         if (!resposta.ok) throw new Error('Erro ao atualizar estoque.');
         inputRetirada.value = '';
@@ -174,12 +162,10 @@ async function baixarEstoque(botao) {
 
 async function excluirMaterial(botao) {
     const li = botao.closest('li');
-    const id = li.dataset.id;
-
     if (!confirm('Tem certeza que deseja excluir este material?')) return;
 
     try {
-        const resposta = await fetch(`${API}/${id}`, { method: 'DELETE' });
+        const resposta = await fetch(`${API}/${li.dataset.id}`, { method: 'DELETE' });
         if (!resposta.ok) throw new Error('Erro ao excluir material.');
         carregarMateriais();
     } catch (erro) {
@@ -189,24 +175,22 @@ async function excluirMaterial(botao) {
 
 async function adicionarEstoque(botao) {
     const li = botao.closest('li');
-    const id = li.dataset.id;
-    const produto = li.dataset.produto;
-    const estoqueAtual = Number(li.dataset.quantidade);
     const inputAdicionar = li.querySelector('.input-adicionar');
     const quantidadeAdicionar = Number(inputAdicionar.value);
 
     if (!quantidadeAdicionar || quantidadeAdicionar <= 0) {
-        alert('Informe uma quantidade valida para adicionar.');
+        alert('Informe uma quantidade válida para adicionar.');
         return;
     }
 
-    const novaQuantidade = estoqueAtual + quantidadeAdicionar;
-
     try {
-        const resposta = await fetch(`${API}/${id}`, {
+        const resposta = await fetch(`${API}/${li.dataset.id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ produto, quantidade: novaQuantidade })
+            body: JSON.stringify({ 
+                produto: li.dataset.produto, 
+                quantidade: Number(li.dataset.quantidade) + quantidadeAdicionar 
+            })
         });
         if (!resposta.ok) throw new Error('Erro ao atualizar estoque.');
         inputAdicionar.value = '';
