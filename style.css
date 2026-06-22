@@ -203,6 +203,16 @@ input:focus {
     margin-left: 6px;
 }
 
+.estoque-critico {
+    background: #fff8e1;
+    border-left: 4px solid #f59e0b;
+}
+
+.estoque-critico .qtd-valor {
+    background: #fef3c7;
+    color: #b45309;
+}
+
 .btn-baixar {
     background: #28a745;
     color: #fff;
