@@ -141,7 +141,7 @@ async function baixarEstoque(botao) {
     const quantidadeRetirada = Number(document.getElementById('input-retirada').value);
 
     if (!validarRetirada(estoqueAtual, quantidadeRetirada)) {
-        alert('⚠️ Quantidade inválida para retirada.');
+        alert('Quantidade inválida para retirada.');
         return;
     }
 
@@ -206,4 +206,12 @@ async function adicionarEstoque(botao) {
     } catch (erro) {
         alert(erro.message);
     }
+}
+
+function preencherLista(materiais) {
+    materiais.forEach(item => {
+        if ((item.quantidade ?? 0) < 10) {
+            li.classList.add('estoque-critico');
+        }
+    });
 }
